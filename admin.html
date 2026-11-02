@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cập nhật dữ liệu điểm</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗂️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="admin" class="min-h-screen">
+  <main class="mx-auto max-w-6xl px-5 sm:px-8 pt-10 pb-16">
+
+    <!-- Đăng nhập -->
+    <section id="gate" class="max-w-md">
+      <h1 class="text-3xl font-bold tracking-tight">Cập nhật dữ liệu điểm</h1>
+      <p class="mt-2 text-muted">Trang dành cho giáo viên quản lý trang tra cứu.</p>
+      <form id="gate-form" class="card mt-6 grid gap-4">
+        <div class="field">
+          <label for="password">Mật khẩu</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn" type="submit">Mở trang quản trị</button>
+        <p id="gate-error" class="text-[color:var(--red)] font-medium min-h-[1.5rem]" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- Bảng điều khiển -->
+    <section id="panel" class="hidden">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight">Cập nhật dữ liệu điểm</h1>
+          <p id="current-info" class="mt-2 text-muted">Đang kiểm tra data.json…</p>
+        </div>
+        <div class="flex gap-2">
+          <a href="index.html" class="btn-ghost">Mở trang tra cứu</a>
+          <button id="btn-logout" type="button" class="btn-ghost">Thoát</button>
+        </div>
+      </div>
+
+      <!-- Bước 1 -->
+      <div class="card mt-8">
+        <h2 class="text-xl font-bold">1. Nhập file điểm</h2>
+        <p class="mt-1 text-muted max-w-3xl">
+          Chấp nhận file Excel (.xlsx) mỗi môn một sheet, có cột “Họ và tên”, “Ngày sinh”; các cột còn lại là điểm.
+          Cột có tên chứa “Nhận xét” hoặc “Ghi chú” được hiển thị thành lời nhận xét. Cột “STT”, “Mã định danh” được tự động ẩn.
+          Cũng nhận file CSV theo mẫu hoặc file JSON gốc đã xuất từ trang này.
+        </p>
+        <label id="drop" class="drop mt-4 block">
+          <input id="file" type="file" accept=".xlsx,.xls,.csv,.json" class="sr-only">
+          <span class="font-semibold">Kéo thả file vào đây hoặc bấm để chọn file</span>
+          <span id="file-name" class="block mt-1 text-muted text-sm">Chưa chọn file</span>
+        </label>
+        <button id="btn-template" type="button" class="mt-3 text-sm underline text-[color:var(--teal)]">Tải file CSV mẫu</button>
+        <p class="mt-3 text-sm text-muted">File chỉ được đọc trên máy của bạn, không gửi đi đâu.</p>
+      </div>
+
+      <!-- Bước 2 -->
+      <div class="card mt-6">
+        <h2 class="text-xl font-bold">2. Kiểm tra dữ liệu</h2>
+        <div id="preview" class="mt-3 text-muted">Chưa có dữ liệu. Nhập file ở bước 1.</div>
+      </div>
+
+      <!-- Bước 3 -->
+      <div id="step-publish" class="card mt-6 hidden">
+        <h2 class="text-xl font-bold">3. Tạo data.json để đăng</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+          <div class="field"><label for="meta-title">Tiêu đề</label><input id="meta-title" placeholder="Tra cứu điểm giữa kỳ I"></div>
+          <div class="field"><label for="meta-className">Lớp</label><input id="meta-className" placeholder="10I4"></div>
+          <div class="field"><label for="meta-term">Kỳ</label><input id="meta-term" placeholder="Giữa học kỳ I"></div>
+          <div class="field"><label for="meta-schoolYear">Năm học</label><input id="meta-schoolYear" placeholder="2026-2027"></div>
+        </div>
+        <div class="mt-5 flex flex-wrap items-center gap-4">
+          <button id="btn-build" type="button" class="btn">Tạo data.json</button>
+          <span id="build-status" class="text-muted" aria-live="polite"></span>
+        </div>
+
+        <div id="after-build" class="hidden mt-6 border-t border-[color:var(--rule)] pt-6">
+          <div class="flex flex-wrap gap-3">
+            <button id="btn-download" type="button" class="btn">Tải data.json</button>
+            <button id="btn-backup" type="button" class="btn-ghost">Tải bản gốc để lưu trữ (không đăng)</button>
+          </div>
+          <ol class="mt-4 list-decimal pl-5 space-y-1 text-muted max-w-3xl">
+            <li>Vào kho GitHub của trang, bấm vào file <b>data.json</b> → biểu tượng bút chì, hoặc “Add file → Upload files”.</li>
+            <li>Tải lên file data.json vừa tạo để thay file cũ, bấm “Commit changes”.</li>
+            <li>Đợi 1–2 phút rồi mở trang tra cứu để kiểm tra.</li>
+          </ol>
+          <p class="mt-3 text-sm text-muted max-w-3xl">Bản gốc chứa họ tên và điểm ở dạng đọc được. Chỉ lưu trên máy của bạn, tuyệt đối không tải lên GitHub.</p>
+
+          <h3 class="mt-8 font-bold text-lg">Thử tra cứu trên bản vừa tạo</h3>
+          <form id="test-form" class="mt-3 grid gap-3 sm:grid-cols-[1fr_12rem_auto] sm:items-end">
+            <div class="field"><label for="test-name">Họ và tên</label><input id="test-name"></div>
+            <div class="field"><label for="test-dob">Ngày sinh</label><input id="test-dob" placeholder="01/01/2010" inputmode="numeric"></div>
+            <button class="btn-ghost h-[3.1rem]" type="submit">Thử</button>
+          </form>
+          <div id="test-result" class="mt-4"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

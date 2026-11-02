@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Link tra cứu điểm GK1</title>
+  <meta name="description" content="Quý phụ huynh tra cứu điểm giữa học kỳ I của học sinh bằng họ tên và ngày sinh.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Toàn bộ giao diện nằm ngay trong file này, không phụ thuộc styles.css hay Tailwind -->
+  <style>
+    :root {
+      --paper: #eef2f7;
+      --sheet: #ffffff;
+      --ink: #14213d;
+      --muted: #5b6b82;
+      --rule: #d5dde8;
+      --field: #f7f9fc;
+      --teal: #0e7c7b;
+      --teal-dark: #0a5e5d;
+      --red: #c0362c;
+      --red-soft: #fbeceb;
+      --amber: #b7790a;
+      --amber-soft: #fdf6e3;
+      --ok-soft: #e8f5ef;
+      --band: #14213d;
+      --band-ink: #ffffff;
+      --band-muted: #b9c4d6;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #0f1726; --sheet: #172235; --ink: #e7edf6; --muted: #9aa9bf;
+        --rule: #2d3d56; --field: #1c2a40; --teal: #3fb6b4; --teal-dark: #63cdcb;
+        --red: #ff8a80; --red-soft: #3a1f22; --amber: #e0b04a; --amber-soft: #352d17; --ok-soft: #173329;
+        --band: #0a111e; --band-ink: #e7edf6; --band-muted: #8d9bb2;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #0f1726; --sheet: #172235; --ink: #e7edf6; --muted: #9aa9bf;
+      --rule: #2d3d56; --field: #1c2a40; --teal: #3fb6b4; --teal-dark: #63cdcb;
+      --red: #ff8a80; --red-soft: #3a1f22; --amber: #e0b04a; --amber-soft: #352d17; --ok-soft: #173329;
+      --band: #0a111e; --band-ink: #e7edf6; --band-muted: #8d9bb2;
+      color-scheme: dark;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--paper); color: var(--ink);
+      font-feature-settings: "tnum" 1; line-height: 1.5;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    h1, h2, h3, p { margin: 0; }
+    button, input { font: inherit; color: inherit; }
+    :focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+    /* ---------- Dải đầu trang ---------- */
+    .band {
+      background: var(--band); color: var(--band-ink);
+      padding: calc(2.5rem + env(safe-area-inset-top, 0px)) 0 6.5rem;
+    }
+    .wrap { max-width: 44rem; margin: 0 auto; padding-left: 1.25rem; padding-right: 1.25rem; }
+    .class-line {
+      display: inline-block; font-weight: 600; font-size: .95rem;
+      padding: .3rem .8rem; border-radius: 999px;
+      background: rgba(255,255,255,.1); color: var(--band-muted);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .band h1 {
+      margin-top: .9rem;
+      font-size: clamp(2.1rem, 7vw, 3.1rem); font-weight: 800;
+      line-height: 1.08; letter-spacing: -.02em;
+    }
+    .band .lead {
+      margin-top: .9rem; max-width: 36rem;
+      font-size: 1.075rem; line-height: 1.65; color: var(--band-muted);
+    }
+    .band .lead b { color: var(--band-ink); font-weight: 600; }
+
+    /* ---------- Thẻ nhập thông tin ---------- */
+    main.wrap { padding-bottom: 3rem; margin-top: -4.5rem; }
+    .form-card {
+      background: var(--sheet); border: 1px solid var(--rule);
+      border-top: 5px solid var(--teal);
+      border-radius: 16px; padding: 1.6rem 1.25rem 1.4rem;
+      box-shadow: 0 24px 48px -30px rgba(20,33,61,.55);
+    }
+    .form-card h2 { font-size: 1.2rem; font-weight: 700; }
+    .form-card .sub { margin-top: .25rem; color: var(--muted); font-size: .95rem; }
+
+    .fields { display: grid; gap: 1.35rem; margin-top: 1.4rem; }
+    .field label {
+      display: flex; align-items: center; gap: .6rem;
+      font-weight: 700; font-size: 1.02rem; margin-bottom: .55rem;
+    }
+    .step {
+      flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      background: var(--teal); color: #fff; font-size: .85rem; font-weight: 700;
+    }
+    .req { color: var(--red); font-weight: 700; }
+    .input-wrap { position: relative; }
+    .input-wrap svg {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      width: 1.25rem; height: 1.25rem; color: var(--muted); pointer-events: none;
+    }
+    .field input {
+      width: 100%; height: 3.6rem; padding: 0 1rem 0 3rem;
+      font-size: 1.15rem; font-weight: 500;
+      background: var(--field); color: var(--ink);
+      border: 2px solid var(--rule); border-radius: 12px;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .field input::placeholder { color: var(--muted); opacity: .6; font-weight: 400; }
+    .field input:hover { border-color: color-mix(in srgb, var(--teal) 45%, var(--rule)); }
+    .field input:focus {
+      outline: none; border-color: var(--teal); background: var(--sheet);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--teal) 22%, transparent);
+    }
+    .field input:focus + svg, .input-wrap:focus-within svg { color: var(--teal); }
+    .hint { margin-top: .45rem; font-size: .9rem; color: var(--muted); }
+    .field.is-invalid input { border-color: var(--red); background: var(--red-soft); }
+    .field.is-invalid .step { background: var(--red); }
+    .field.is-invalid .hint { color: var(--red); }
+
+    .actions { display: grid; gap: .7rem; margin-top: 1.6rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      height: 3.6rem; padding: 0 1.8rem; border-radius: 12px; border: 0; cursor: pointer;
+      background: var(--teal); color: #fff; font-weight: 700; font-size: 1.12rem;
+      box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--teal) 80%, transparent);
+      transition: background .15s, transform .05s;
+    }
+    .btn svg { width: 1.3rem; height: 1.3rem; }
+    .btn:hover { background: var(--teal-dark); }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: .65; cursor: progress; }
+    .btn-secondary {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      height: 3.6rem; padding: 0 1.4rem; border-radius: 12px; cursor: pointer;
+      background: transparent; color: var(--ink); font-weight: 600; font-size: 1rem;
+      border: 2px solid var(--rule);
+    }
+    .btn-secondary:hover { border-color: var(--muted); }
+
+    .privacy {
+      display: flex; gap: .6rem; align-items: flex-start;
+      margin-top: 1.3rem; padding-top: 1.1rem; border-top: 1px dashed var(--rule);
+      font-size: .9rem; color: var(--muted);
+    }
+    .privacy svg { flex: none; width: 1.1rem; height: 1.1rem; margin-top: .15rem; }
+
+    @media (min-width: 640px) {
+      .wrap { padding-left: 2rem; padding-right: 2rem; }
+      .form-card { padding: 2rem 2rem 1.6rem; }
+      .fields { grid-template-columns: 1fr 15rem; }
+      .actions { grid-template-columns: 1fr auto; }
+    }
+
+    /* ---------- Thông báo ---------- */
+    #result { margin-top: 2rem; scroll-margin-top: 1rem; }
+    .msg { border-radius: 12px; padding: 1rem 1.15rem; border-left: 5px solid; color: var(--ink); }
+    .msg-error { background: var(--red-soft); border-color: var(--red); }
+    .msg-warn { background: var(--amber-soft); border-color: var(--amber); }
+    .msg-ok { background: var(--ok-soft); border-color: var(--teal); }
+
+    /* ---------- Phiếu báo điểm (do app.js tạo) ---------- */
+    .report {
+      position: relative; --margin: 1.5rem;
+      background:
+        linear-gradient(to right, transparent var(--margin), color-mix(in srgb, var(--red) 60%, transparent) var(--margin), color-mix(in srgb, var(--red) 60%, transparent) calc(var(--margin) + 1.5px), transparent calc(var(--margin) + 1.5px)),
+        var(--sheet);
+      border: 1px solid var(--rule); border-radius: 4px 16px 16px 4px;
+      padding: 1.5rem 1.1rem 1.25rem 2.4rem;
+      box-shadow: 0 1px 0 var(--rule), 0 18px 40px -28px rgba(20,33,61,.45);
+    }
+    .report-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding-bottom: 1.1rem; border-bottom: 2px solid var(--ink); }
+    .report-name { font-size: clamp(1.6rem, 4.5vw, 2.25rem); font-weight: 700; line-height: 1.15; letter-spacing: -.01em; margin: .15rem 0 .25rem; }
+    .report-foot { margin-top: 1.25rem; font-size: .875rem; color: var(--muted); }
+    .subject { display: grid; grid-template-columns: 1fr; gap: .35rem; padding: .9rem 0; border-bottom: 1px solid var(--rule); }
+    .subject-name { font-weight: 700; font-size: 1.125rem; }
+    .subject-headrow { display: none; }
+    .note {
+      grid-column: 1 / -1; font-size: .95rem; line-height: 1.55;
+      background: color-mix(in srgb, var(--teal) 8%, transparent);
+      border-radius: 8px; padding: .55rem .8rem; margin-top: .25rem;
+    }
+    .chip {
+      display: inline-block; min-width: 2.2rem; text-align: center;
+      padding: .12rem .5rem; border-radius: 6px; font-weight: 600;
+      background: color-mix(in srgb, var(--ink) 7%, transparent);
+    }
+    .subject-mid .chip { font-size: 1.25rem; padding: .2rem .6rem; background: transparent; border: 1.5px solid var(--rule); }
+    .chip-low { color: var(--red); background: var(--red-soft) !important; }
+    .btn-ghost {
+      white-space: nowrap; cursor: pointer;
+      background: transparent; color: var(--teal); border: 1.5px solid var(--teal);
+      padding: .5rem 1rem; border-radius: 9px; font-weight: 600;
+    }
+    .btn-ghost:hover { background: color-mix(in srgb, var(--teal) 10%, transparent); }
+    @media (min-width: 640px) {
+      .report { padding: 1.75rem 1.5rem 1.5rem 3.1rem; --margin: 2.1rem; }
+      .subject { grid-template-columns: 9.5rem 1fr 6.5rem; align-items: start; column-gap: 1.25rem; }
+      .subject-headrow { display: grid; color: var(--muted); font-size: .85rem; padding: .6rem 0; }
+      .subject-mid { text-align: right; }
+      .note { grid-column: 2 / -1; }
+    }
+
+    /* Các lớp tiện ích mà app.js dùng khi vẽ kết quả */
+    .flex { display: flex; } .flex-wrap { flex-wrap: wrap; } .items-baseline { align-items: baseline; }
+    .inline-block { display: inline-block; }
+    .gap-1 { gap: .25rem; } .gap-x-2 { column-gap: .5rem; } .gap-y-1 { row-gap: .25rem; }
+    .py-0\.5 { padding-top: .125rem; padding-bottom: .125rem; }
+    .mt-1 { margin-top: .25rem; } .mr-2 { margin-right: .5rem; }
+    .min-w-\[7\.5rem\] { min-width: 7.5rem; }
+    .text-sm { font-size: .875rem; } .text-right { text-align: right; }
+    .font-semibold { font-weight: 600; }
+    .text-muted { color: var(--muted); } .text-ink { color: var(--ink); }
+    .text-ink\/80 { color: color-mix(in srgb, var(--ink) 80%, transparent); }
+    @media (min-width: 640px) { .sm\:hidden { display: none; } }
+
+    /* ---------- Chân trang ---------- */
+    .site-foot { margin-top: 2.5rem; font-size: .9rem; color: var(--muted); text-align: center; }
+    .site-foot p + p { margin-top: .25rem; }
+
+    @media print {
+      body { background: #fff; color: #000; }
+      .band, .form-card, .site-foot, .no-print { display: none !important; }
+      main.wrap { margin-top: 0; padding: 0; max-width: none; }
+      .report { box-shadow: none; border-color: #999; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body data-page="lookup">
+
+  <header class="band">
+    <div class="wrap">
+      <p id="class-line" class="class-line">Kết quả học tập Giữa học kỳ I</p>
+      <h1>Link tra cứu điểm GK1</h1>
+      <p class="lead">
+        Quý phụ huynh vui lòng nhập <b>đầy đủ họ tên</b> và <b>ngày sinh</b> của học sinh,
+        sau đó bấm <b>Tra cứu điểm</b> để xem kết quả.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <form id="lookup-form" class="form-card" novalidate>
+      <h2>Thông tin học sinh</h2>
+      <p class="sub">Các ô có dấu <span class="req">*</span> là bắt buộc.</p>
+
+      <div class="fields">
+        <div class="field">
+          <label for="name"><span class="step" aria-hidden="true">1</span>Họ và tên học sinh <span class="req" aria-hidden="true">*</span></label>
+          <div class="input-wrap">
+            <input id="name" name="name" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="Ví dụ: Nguyễn Văn An" required aria-describedby="name-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <p id="name-hint" class="hint">Nhập đủ họ, tên đệm và tên. Có dấu hoặc không dấu đều được.</p>
+        </div>
+
+        <div class="field">
+          <label for="dob"><span class="step" aria-hidden="true">2</span>Ngày sinh <span class="req" aria-hidden="true">*</span></label>
+          <div class="input-wrap">
+            <input id="dob" name="dob" type="text" inputmode="numeric" autocomplete="off"
+                   placeholder="01/01/2010" maxlength="10" required aria-describedby="dob-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          </div>
+          <p id="dob-hint" class="hint">Ngày/tháng/năm. Chỉ cần gõ số, dấu “/” tự thêm.</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="btn-search" type="submit" class="btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span class="btn-label">Tra cứu điểm</span>
+        </button>
+        <button id="btn-reset" type="button" class="btn-secondary">Nhập lại</button>
+      </div>
+
+      <p class="privacy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span>Thông tin chỉ dùng để mở bảng điểm của học sinh và không được lưu lại.</span>
+      </p>
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+
+    <footer class="site-foot">
+      <p id="updated-line"></p>
+      <p>Mọi thắc mắc về điểm, Quý phụ huynh vui lòng liên hệ giáo viên chủ nhiệm.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
